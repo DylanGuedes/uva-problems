@@ -18,7 +18,6 @@ struct edge
     int y;
     int z;
 };
-
 bool myfunc(edge e1, edge e2)
 {
     return e1.z < e2.z;
@@ -97,7 +96,7 @@ int main()
             FOR(j, 0, n+2) {
                 father[j] = j;
             }
-           
+
             int new_cost = 0;
             FOR(j, 0, mysize) {
                 if (j != i) {
@@ -118,11 +117,8 @@ int main()
             }
 
             if (possible && new_cost >= mst_total) {
-                // printf("mst found!\n");
-                // printf("removed: %d\n", edges[i].z);
                 has_2nd_mst = true;
                 second_best_cost = min(second_best_cost, new_cost);
-                // printf("cost: %d\n", new_cost);
             }
         }
 

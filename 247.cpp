@@ -15,7 +15,9 @@ int lowtime[30];
 int times[30];
 int father[30];
 int visited[30];
-vector<int> solutions;
+vector<int> actual_scc;
+
+#define FOR(i, j, k)for(int i=j; i <k; ++i)
 
 void tarjan(int idx, int val)
 {
@@ -30,18 +32,26 @@ void tarjan(int idx, int val)
         if (visited[it] == 0) {
             tarjan(it, val+1);
             lowtime[idx] = min(lowtime[idx], lowtime[it]);
+        } else {
+            lowtime[idx] = min(lowtime[idx], times[it]);
         }
     }
 
     if (lowtime[idx] == times[idx]) {
+        actual_scc.clear();
         while (not mys.empty()) {
-            cout << "idx: " << dict[idx]<<", top: " << dict[mys.top()] << endl;
-            int act = mys.top(); mys.pop();
-            solutions.push_back(act);
-            if (act == idx) {
+            int actual = mys.top(); mys.pop();
+            actual_scc.push_back(actual);
+            if (actual == idx) {
                 break;
             }
         }
+
+        for (auto it=actual_scc.begin(); it != actual_scc.end(); ++it) {
+            if (it != actual_scc.begin()) printf(", ");
+            printf("%s", dict[*it].c_str());
+        }
+        printf("\n");
     }
 }
 
@@ -51,10 +61,13 @@ int main()
     int pointer;
     string tmp_buf;
     int origin, destiny;
+    int mycountz=0;
 
     while (cin >> n >> m) {
         if (not (n | m))
             return 0;
+        if (mycountz!=0)
+            printf("\n");
 
         pointer = 0;
         mymap.clear();
@@ -63,7 +76,7 @@ int main()
         for (int i=0; i < m; ++i) {
             cin >> tmp_buf;
             if (mymap.find(tmp_buf) == mymap.end()) {
-                mymap.insert(pair<string, int>(tmp_buf, pointer));
+                mymap.insert(make_pair(tmp_buf, pointer));
                 dict.insert(pair<int, string>(pointer, tmp_buf));
                 ++pointer;
                 origin = mymap[tmp_buf];
@@ -73,7 +86,7 @@ int main()
 
             cin >> tmp_buf;
             if (mymap.find(tmp_buf) == mymap.end()) {
-                mymap.insert(pair<string, int>(tmp_buf, pointer));
+                mymap.insert(make_pair(tmp_buf, pointer));
                 dict.insert(pair<int, string>(pointer, tmp_buf));
                 ++pointer;
                 destiny = mymap[tmp_buf];
@@ -89,26 +102,13 @@ int main()
             father[i] = i;
         }
 
-        for (int i=0; i < n; ++i) {
+        printf("Calling circles for data set %d:\n", mycountz+1);
+        FOR(i, 0, n) {
             if (visited[i] == 0) {
-                solutions.clear();
                 tarjan(i, 0);
-                for (auto it : solutions) {
-                    cout << dict[it] << " ";
-                }
-                cout << endl;
             }
         }
-        cout << endl;
-        
-        // cout << "ADJS: " << endl;
-        // for (int i=0; i < n; ++i) {
-        //     cout << "Lista de " << dict[i] << endl;
-        //     for (auto it : graph[i]) {
-        //         cout << dict[it] << " ";
-        //     }
-        //     cout << endl;
-        // }
+        mycountz++;
     }
     return 0;
 }

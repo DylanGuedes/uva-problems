@@ -85,7 +85,7 @@ int main()
 
         MEMSET(ranks);
         FOR(i, 0, n+2) {
-            father[i] = i; 
+            father[i] = i;
         }
 
         cin >> n;
