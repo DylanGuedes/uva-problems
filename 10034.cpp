@@ -45,7 +45,7 @@ void make_union(int x, int y)
     }
 }
 
-int main()
+int main(int argc, char const *argv[])
 {
     int n, t;
     double myx, myy;
