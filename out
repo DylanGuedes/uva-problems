@@ -1,8 +1,70 @@
-9
-0
-75
-67
-119
-59
-88
-76
+Data set 1:
+Some lights are not visible:
+x = 2, y = 2;
+x = 3, y = 3;
+x = 4, y = 4;
+x = 5, y = 5.
+Data set 2:
+Some lights are not visible:
+x = 2, y = 2;
+x = 3, y = 3;
+x = 5, y = 5.
+Data set 3:
+Some lights are not visible:
+x = 2, y = 2;
+x = 4, y = 4;
+x = 5, y = 5.
+Data set 4:
+All the lights are visible.
+Data set 5:
+All the lights are visible.
+Data set 6:
+Some lights are not visible:
+x = 2, y = 2.
+Data set 7:
+Some lights are not visible:
+x = -40, y = 80;
+x = 96, y = 56.
+Data set 8:
+Some lights are not visible:
+x = -38, y = 44.
+Data set 9:
+Some lights are not visible:
+x = -30, y = 12;
+x = 0, y = 86;
+x = 14, y = 84;
+x = 68, y = 51.
+Data set 10:
+Some lights are not visible:
+x = -91, y = 91;
+x = -73, y = 73;
+x = 0, y = 51;
+x = 55, y = 88.
+Data set 11:
+Some lights are not visible:
+x = -91, y = 70;
+x = 40, y = 88;
+x = 75, y = 30;
+x = 88, y = 96.
+Data set 12:
+Some lights are not visible:
+x = -159, y = 424;
+x = 81, y = 54;
+x = 116, y = 232;
+x = 234, y = 468;
+x = 318, y = 53.
+Data set 13:
+Some lights are not visible:
+x = -48, y = 464;
+x = 132, y = 168.
+Data set 14:
+Some lights are not visible:
+x = -78, y = 156;
+x = 0, y = 244;
+x = 0, y = 356;
+x = 40, y = 400.
+Data set 15:
+Some lights are not visible:
+x = -352, y = 256;
+x = -102, y = 102;
+x = 9, y = 48.
