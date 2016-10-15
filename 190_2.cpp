@@ -8,7 +8,7 @@ using ii = pair<int, int>;
 using ll = long long;
 using dd = pair<double, double>;
 
-const double EPS = 1e-4;
+const double EPS = 1e-7;
 
 double equals(double a1, double a2)
 {
@@ -101,38 +101,83 @@ int main()
         point p, q, r;
         int counter = 0;
         while (cin >> p.x >> p.y >> q.x >> q.y >> r.x >> r.y) {
+                if (counter)
+                        cout << "\n";
 
                 triangle t(p, q, r);
                 point center = t.circumcenter();
 
-                auto h = center.x;
-                auto k = center.y;
-                auto r = t.circumradius();
-                char sign;
+                char x_sig, y_sig;
 
-                sign = h > 0.0 ? '+' : '-';
-                equals(h, 0) ? cout << "x^2" : cout << "(x " << inv(sign) << " " << fixed << setprecision(3) << fabs(h) << ")^2";
 
-                sign = k > 0.0 ? '+' : '-';
-                equals(k, 0) ? cout << " + y^2" : cout << " + (y " << inv(sign) << " " << fixed <<setprecision(3) << fabs(k) << ")^2";
+                if (equals(0, center.x)) {
+                        cout << "x^2";
+                } else {
+                        cout << "(x ";
+                        p_sep(center.x*-1);
+                        cout << ")^2";
+                }
 
-                sign = r > 0.0 ? '+':'-';
-                cout << " = " << fixed << setprecision(3) << fabs(r) << "^2\n";
+                if (equals(0, center.y)) {
+                        cout << " + y^2";
+                } else {
+                        cout << " + (y ";
+                       p_sep(center.y*-1);
+                      cout << ")^2";
+                }
 
-                auto c = 2*(-h);
-                auto d = 2*(-k);
-                auto e = h*h + k*k - r*r;
+                cout << " = " << t.circumradius() << "^2\n";
+
+                double e = (center.x*center.x);
+                e += (center.y*center.y);
+                e -= t.circumradius()*t.circumradius();
+
+                char e_sig;
+                if (e > EPS)
+                        e_sig = '+';
+                else {
+                        e_sig = '-';
+                        e*=-1;
+                }
+
+                double term_1 = -2*center.x;
+                char sig_term_1;
+                if (term_1 > EPS)
+                        sig_term_1 = '+';
+                else {
+                        sig_term_1 = '-';
+                        term_1 *= -1;
+                }
+
+                double term_2 = -2*center.y;
+                char sig_term_2;
+                if (term_2 > EPS)
+                        sig_term_2 = '+';
+                else {
+                        sig_term_2 = '-';
+                        term_2 *= -1;
+                }
 
                 cout << "x^2 + y^2";
-                sign = c > 0.0 ? '+' : '-';
-                equals(c, 0) ? cout << "" : cout << " " << sign << " " << fabs(c) << "x";
+                if (equals(term_1, 0)) {
+                } else {
+                        cout << " " <<sig_term_1 << " " << term_1 << "x";
+                }
 
-                sign = d > 0.0 ? '+':'-';
-                equals(d, 0) ? cout << "" : cout << " " << sign << " " << fabs(d) << "y";
+                if (equals(term_2, 0)) {
+                } else {
+                        cout << " " << sig_term_2 << " " << term_2 << "y";
+                }
 
-                sign = e > 0.0 ? '+' : '-';
-                e == 0? cout << " = 0\n" : cout << " " << (sign) << " " << fabs(e) << " = 0\n";
-                cout << "\n";
+                if (e<0.000)
+                        e*=-1;
+                if (e==0) {
+                        cout << " = 0\n";
+                } else if (equals(e, 0)) {
+                        cout << " " << (e_sig) << " " << e << " = 0\n";
+                } else {
+                        cout << " " << e_sig << " " << e << " = 0\n";
+                }
 
                 counter++;
         }

@@ -3,7 +3,9 @@
 using namespace std;
 
 #define repi(i, j, k)for(int i=j;i<k;++i)
-double const EPS = 1e-9;
+#define pb(i) push_back(i)
+double const PI = 3.141592653589793;
+double const EPS = 1e-12;
 
 double equals(double a1, double a2)
 {
@@ -16,6 +18,24 @@ public:
         Triangle(double _a, double _b, double _c) : a(_a), b(_b), c(_c) { }
         Triangle() { }
 
+        typedef enum { RIGHT, ACUTE, OBTUSE } Angles;
+
+        Angles classification_by_angles() const
+        {
+                auto AB = acos((c*c - a*a - b*b)/(-2*a*b));
+                auto AC = acos((b*b - a*a - c*c)/(-2*a*c));
+                auto BC = acos((a*a - b*b - c*c)/(-2*b*c));
+
+                auto right = PI / 2.0;
+
+                if (equals(AB, right) || equals(AC, right) || equals(BC, right))
+                        return RIGHT;
+
+                if (AB > right || AC > right || BC > right)
+                        return OBTUSE;
+
+                return ACUTE;
+        }
         double area() const
         {
                 auto s = perimeter() / 2.0;
@@ -47,13 +67,20 @@ int main()
         int n;
         cin >> n;
         double a, b, c;
+        vector<int> ans;
         repi(i, 0, n) {
                 cin >> a >> b >> c;
                 Triangle t(a, b, c);
-                vector<int> ans;
+                ans.clear();
                 repi(j, 0, m) {
-                        if (t.circumradius() < (hole[j]/2.0) || equals(t.circumradius(), hole[j]/2.0))
-                                ans.push_back(j+1);
+                        if (t.classification_by_angles() == Triangle::Angles::OBTUSE) {
+                                double l_side = max(t.a, max(t.b, t.c));
+                                if (hole[j] >= l_side)
+                                        ans.pb(j+1);
+                        } else {
+                                if (t.circumradius() < (hole[j]/2.0) || equals(t.circumradius(), hole[j]/2.0))
+                                        ans.pb(j+1);
+                        }
                 }
 
                 cout << "Peg " << (char)('A'+i);
