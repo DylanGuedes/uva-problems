@@ -15,20 +15,24 @@ int main()
         ios::sync_with_stdio(false);
         int l, w, h, theta;
         while (cin >> l >> w >> h >> theta) {
-                double v1 = l*w*h;
-                auto omega = (double)l*sin(to_rad(theta));
-                auto alpha = (double)90-theta;
-                cout << "alpha: " << alpha << "\n";
-                cout << "tan(alpha) = " << tan(to_rad(90-alpha)) <<"\n";
-                auto x1 = (double)omega*tan(to_rad(90-alpha));
-                cout << "x1: " << x1 << "\n";
-                auto x2 = (double)l*cos(to_rad(theta));
-                cout << "x2: " << x2 << "\n";
-                cout << "omega: " << omega << "\n";
+                auto hypo1 = hypot(l, h);
+                double h1=l*sin(to_rad(theta));
+                auto alpha=90.0-theta;
+                auto psi=90-alpha;
+                auto mynicevalue = h1/cos(to_rad(psi));
+                auto hypo2 = hypot(mynicevalue, l);
+                double myval = atan(h/l);
+                if (hypo2>hypo1) {
+                        auto z=tan(to_rad(90-theta))*h;
+                        cout << fixed << setprecision(3) << (z*h/2)*w << " mL\n";
+                } else {
+                        auto omega=h1/cos(to_rad(psi));
+                        auto x2=sin(to_rad(psi))*omega;
+                        auto x1=cos(to_rad(theta))*l;
 
-                double v2 = (double)omega*w*(x1+x2)/2.0;
-                cout << "v2:  " << v2 << "\n";
-                cout << fixed <<setprecision(3) << fabs(fabs(v1)-fabs(v2)) << " mL\n";
+                        auto area=h1*(x1+x2)/2;
+                        cout << fixed <<setprecision(3) << l*h*w-area*w << " mL\n";
+                }
         }
         return 0;
 }

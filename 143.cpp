@@ -84,7 +84,6 @@ public:
         }
 };
 
-#define all(x) x.begin(),x.end()
 
 int main()
 {
@@ -117,3 +116,4 @@ int main()
         }
         return 0;
 }
+#define all(x) x.begin(),x.end()

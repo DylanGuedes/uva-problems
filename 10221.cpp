@@ -17,14 +17,16 @@ int main()
         string comm;
         while (cin >> s >> a >> comm) {
                 a < eps ? a = fabs(a) : a;
-                a = fmod(a, 360.0);
                 if (comm == "min")
-                        a/=60;
+                        a/=60.0;
 
                 ll r = 6440;
+                if (a>180) {
+                        a=180-(a-180.0);
+                }
                 auto that = 2*sin(a*pi/360.0)*(r+s);
                 if (r+s >= (r+s + that) || that > 2*(r+s))
-                        cout << fixed << setprecision(6) << 2*that;
+                        cout << fixed << setprecision(6) << 2*that << " ";
                 else {
                         // a = fmod(a, 180.0);
                         cout << fixed << setprecision(6) << (s+r)*(a*pi/180.0)<< " ";

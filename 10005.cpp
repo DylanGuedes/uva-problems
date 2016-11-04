@@ -2,8 +2,8 @@
 
 using namespace std;
 
-#define repi(i, j, k)for(int i=j;i<k;++i)
-double const EPS = 1e-10;
+#define rep(i, j, k)for(int i=j;i<k;++i)
+double const EPS = 1e-6;
 
 class point {
 public:
@@ -18,14 +18,13 @@ public:
         double r;
 
         circle(const point& Cv = point(0, 0), double rv = 1.0) : C(Cv), r(rv) {}
-
 };
 
 bool
 from2PointsAndRadius(const point& P, const point& Q, double r, circle& c)
 {
         double d2 = (P.x - Q.x) * (P.x - Q.x) + (P.y - Q.y) * (P.y - Q.y);
-        double det = r * r / d2 - 0.25;
+        double det = (r * r / d2) - 0.25;
 
         if (det < 0.0)
                 return false;
@@ -56,53 +55,64 @@ int main()
         while (cin >> n) {
                 if (!n)
                         return 0;
-                point highest_y, highest_x;
-                highest_y.y = -1<<30;
-                highest_x.x = -1<<30;
 
-                if (n == 2) {
-                        cin >> arr[0].x >> arr[0].y;
-                        cin >> arr[1].x >> arr[1].y;
-                        highest_x = arr[0];
-                        highest_y = arr[1];
-                } else {
-                        repi(i, 0, n) {
-                                cin >> arr[i].x >> arr[i].y;
-                                if (highest_y.y < abs(arr[i].y))
-                                        highest_y = arr[i];
-                                if (highest_x.x < abs(arr[i].x))
-                                        highest_x = arr[i];
-                        }
+                point pt1, pt2;
+
+                rep(i, 0, n) {
+                        cin >> arr[i].x >> arr[i].y;
                 }
 
                 double r;
                 cin >> r;
 
-                circle circle1;
-                circle circle2;
-                bool possible = from2PointsAndRadius(highest_x, highest_y, r, circle1);
-                possible = from2PointsAndRadius(highest_y, highest_x, r, circle2);
+                bool ok=false;
+                rep(i, 0, n) {
+                bool possible=false;
+                        rep(j, i+1, n) {
+                                possible=false;
+                                circle circle1;
+                                circle circle2;
+                                pt1=arr[i];
+                                pt2=arr[j];
 
-                if (possible) {
-                        bool flag1 = true;
-                        bool flag2 = true;
-                        repi(i, 0, n) {
-                                if (distance(circle1.C, arr[i]) > (r+EPS)) {
-                                        flag1 = false;
+                                possible = from2PointsAndRadius(pt1, pt2, r, circle1);
+                                possible = max(possible, from2PointsAndRadius(pt2, pt1, r, circle2));
+
+                                bool flag1 = true;
+                                bool flag2 = true;
+
+                                if (possible) {
+                                        rep(k, 0, n) {
+                                                if (k==i || k==j)
+                                                        continue;
+
+                                                if (distance(circle1.C, arr[k]) > (r)+EPS) {
+                                                        flag1 = false;
+                                                }
+
+                                                if (distance(circle2.C, arr[k]) > (r)+EPS) {
+                                                        flag2 = false;
+                                                }
+
+                                                if (not(flag1|flag2)) {
+                                                        possible = false;
+                                                        break;
+                                                }
+                                        }
                                 }
 
-                                if (distance(circle2.C, arr[i]) > (r+EPS)) {
-                                        flag2 = false;
-                                }
-
-                                if (not(flag1|flag2)) {
-                                        possible = false;
+                                if (possible) {
+                                        ok=true;
                                         break;
                                 }
                         }
+                        if (possible) {
+                                ok=true;
+                                break;
+                        }
                 }
 
-                if (possible) {
+                if (ok || n==1) {
                         cout << "The polygon can be packed in the circle.\n";
                 } else {
                         cout << "There is no way of packing that polygon.\n";
